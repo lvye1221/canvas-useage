@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>粒子效果</title>
+	</head>
+	<style type="text/css">
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+	</style>
+
+	<body>
+	</body>
+
+	<script>
+
+//创建一个画布
+var canvas = document.createElement("canvas");
+//设置背景颜色
+canvas.style.background = "gold";
+//设置画布的宽高
+canvas.width = window.screen.width;
+canvas.height = window.screen.height;
+
+//将上面创建的画布添加进去 到body
+document.body.appendChild(canvas);
+
+//获取一只画笔
+var paint = canvas.getContext("2d");
+
+// 圆球类
+function Circle(xPoint,yPoint) {
+
+	this.x=xPoint;
+	this.y=yPoint;
+
+	//随机产生一个－3～3的值
+	this.xVal = Math.random() * 6 - 3;
+	this.yVal = 5;
+	this.gravity=0.05;
+
+	console.log("2:", this.xVal, this.yVal);
+
+
+	var self = this;
+
+	//定义一个方法用于更新圆的位置
+	this.update = function() {
+		console.log("update:", this.x, this.y);
+
+		self.x = self.x - self.xVal;
+		self.y=self.y-self.yVal;
+		self.yVal=self.yVal-self.gravity;
+		
+		//随机取一个颜色
+		var num=Math.random()*(16*16*16*16*16*16-1);
+		//向下取整
+		num=Math.round(num);
+		//改变画笔的颜色 把十进制的数转换成16进制 num.toString(16)
+		paint.fillStyle="#"+num.toString(16);
+		//开始画圆
+		paint.beginPath();
+		// 参数一，参数二：圆点  参数三：半径 参数四：开始的角度  参数五：结束的角度  参数六：画的顺序
+		paint.arc(self.x, self.y, 10, 0, Math.PI * 2, false);
+		paint.closePath();
+		//设置圆为实心的
+		paint.fill();
+	}
+}
+
+
+// 存储所有球的点
+var circles = [];
+
+// 定时画图
+setInterval(drawCircle, 100);
+
+function drawCircle(){
+	// 清空画布
+	paint.clearRect(0,0,window.innerWidth,window.innerHeight);	
+
+	var x = window.innerWidth / 2;
+	var y = window.innerHeight / 2;
+
+	// 创建一个球
+	var c = new Circle(x, y);
+
+	// 存到系统中
+	circles.push(c);
+
+	for (var i = 0; i < circles.length; i++) {
+		circles[i].update();
+	}
+
+}, 100);
+
+	</script>
+</html>
