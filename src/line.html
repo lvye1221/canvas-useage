@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>画布效果</title>
+	</head>
+
+	<body>
+
+	  <canvas width="500" height="300" id="c"></canvas>
+
+	</body>
+
+	<script>
+
+//创建一个画布
+var canvas = document.getElementById("c");
+
+//获取一只画笔
+var paint = canvas.getContext("2d");
+
+
+// 画线
+function drawLine(p1, p2) {
+	paint.lineWidth = "10";
+	paint.lineCap = "round";
+	paint.strokeStyle = "black";
+
+	// 画图
+	paint.beginPath();
+	paint.lineTo(p1.x, p1.y);
+	paint.lineTo(p2.x, p2.y);
+	paint.stroke();
+}
+
+var p1 = {x: 0, y: 0};
+var p2 = {x: 100, y: 0};
+
+drawLine(p1, p2);
+
+var p3 = {x: 50, y: 50};
+
+
+drawLine(p2, p3);
+drawLine(p3, p1);
+
+
+
+
+	</script>
+</html>
+

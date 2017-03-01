@@ -1,0 +1,98 @@
+
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>我是小画家</title>
+	</head>
+
+	<body>
+
+	<canvas width="800" height="500" id="c" style="border: 1px solid black; cursor: crosshair;"></canvas>
+
+    <input type="color" class="tools lineColor" id="lineColor">
+
+	</body>
+
+	<script>
+
+
+//创建一个画布
+var canvas = document.getElementById("c");
+
+//获取一只画笔
+var paint = canvas.getContext("2d");
+
+
+// 画图的方法
+function Paint(target) {
+
+	this.target = target;
+
+	this.context = target.getContext("2d");
+
+	this.drawLine();
+}
+
+// 添加方法
+Paint.prototype.drawLine = function() {
+
+	var self = this;
+
+	this.target.onmousedown = function(e) {
+
+		// 按下的点的坐标
+		var x = e.pageX;
+		var y = e.pageY;
+
+		// 鼠标按下时，开始划线
+		self.context.beginPath();
+
+		// 先移动到按下的那个点
+		self.context.moveTo(x, y);
+
+
+		// self.target.style.cursor = "crosshair";
+
+		// 移动时进行画线
+		self.target.onmousemove = function(e) {
+
+			// 开始画线
+			// 减去鼠标范围的偏移量
+			self.context.lineTo(e.pageX - 7, e.pageY - 7);
+
+			// 结束当前划线
+			self.context.stroke();
+		}
+
+		// 鼠标抬手时结束画线
+		self.target.onmouseup = function(e) {
+			self.target.onmousemove = null;
+		}
+	}
+}
+
+// 更改线的颜色
+Paint.prototype.setLineColor = function(color) {
+	this.context.strokeStyle = color;
+}
+
+
+var canvas = document.getElementById("c");
+
+var painter = new Paint(canvas);
+
+
+var lineColor = document.getElementById("lineColor");
+
+lineColor.onchange = function () {
+    painter.setLineColor(this.value);
+}
+
+
+	</script>
+</html>
+
+
