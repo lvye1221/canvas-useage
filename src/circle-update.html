@@ -42,14 +42,13 @@ function Circle(xPoint,yPoint) {
 	this.yVal = 5;
 	this.gravity=0.05;
 
-	console.log("2:", this.xVal, this.yVal);
+	// console.log("2:", this.xVal, this.yVal);
 
 
 	var self = this;
 
 	//定义一个方法用于更新圆的位置
 	this.update = function() {
-		console.log("update:", this.x, this.y);
 
 		self.x = self.x - self.xVal;
 		self.y=self.y-self.yVal;
@@ -95,7 +94,7 @@ function drawCircle(){
 		circles[i].update();
 	}
 
-}, 100);
+}
 
 	</script>
 </html>
