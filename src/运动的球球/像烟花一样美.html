@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding:  0;
+		}
+	</style>
+	</body>
+	<script type="text/javascript">
+	//创建一个canvas context
+	//第一步画一个园，第二部画很多个园，第三部让这些园动起来
+	var circles=[];
+		var canvas=document.createElement("canvas");
+		//设置一下宽高
+		canvas.width=window.innerWidth;
+		canvas.height=window.innerHeight;
+		//设置背景
+		canvas.style.background="black";
+		//添加到网页中
+		document.body.appendChild(canvas);
+		//画东西有画笔，封装在canvas的画笔。
+		var paint=canvas.getContext("2d");
+		
+		
+		//定时器
+		setInterval(drawcircle,60);
+		function drawcircle(){
+			paint.clearRect(0,0,window.innerWidth,window.innerHeight);
+			//新建一个圆对象。
+			var c=new circle(window.innerWidth/2,window.innerHeight-50);
+			//把新建的圆存起来
+			circles.push(c);
+			//调用这个对象的方法
+			for(var i=0;i<circles.length;i++){
+				//更新每一个圆的坐标
+				circles[i].update();
+			}
+			
+		}
+		//创建一个圆“类”
+		function circle(x,y){
+			this.x=x;
+			this.y=y;
+			//随机生成，X轴的变化值
+			this.xVar=Math.random()*6-3;
+			this.yVar=5;
+			this.gravity=0.05;
+			this.update=function(){
+			
+			//设置一下画笔的颜色
+		//paint.fillStyle="cyan";	
+			 var num=Math.random()*16*16*16*16*16*16-1;
+			 num=Math.floor(num);
+			 paint.fillStyle="#"+num.toString(16);
+			 
+		//开始画东西
+		paint.beginPath();
+		//随机一个宽度， Math.randow()的区间为0~1 不包括1，乘以窗口的宽度，即0到窗口的宽度
+//		var x=Math.random()*window.innerWidth;
+//		var y=Math.random()*window.innerHeight;
+		
+		this.y=this.y-this.yVar;
+		this.x=this.x+this.xVar;
+		this.yVar=this.yVar-this.gravity;
+		
+		
+		//从底部弹起来
+		if(this.y>=window.innerHeight){
+			this.yVar=5;
+		}
+		//画圆 圆心的XY坐标  半径  开始角度（以弧度计）  结束角度  画的方向  flase(可选，表示顺时针画图，true 表示逆时针)
+		paint.arc(this.x,this.y,3,0,Math.PI*2,false);
+		//画完了
+		paint.closePath();
+		//填充一下
+		paint.fill();
+			}
+		}
+	</script>
+</html>
